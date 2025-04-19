@@ -1,0 +1,66 @@
+<div class="container">
+  <h2 class="title">📌 Danh sách bàn</h2>
+
+  <!-- Bộ lọc -->
+  <div class="filters">
+    <div class="filter-item">
+      <label for="khuVucFilter">Khu vực:</label>
+      <select id="khuVucFilter" (change)="onKhuVucChange($event)">
+        <option value="">Tất cả</option>
+        <option *ngFor="let khuVuc of khuVucs" [value]="khuVuc.id">
+          {{ khuVuc.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="loaiBanFilter">Loại bàn:</label>
+      <select id="loaiBanFilter" (change)="onLoaiBanChange($event)">
+        <option value="">Tất cả</option>
+        <option *ngFor="let loaiBan of loaiBans" [value]="loaiBan.id">
+          {{ loaiBan.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="statusFilter">Trạng thái:</label>
+      <select id="statusFilter" (change)="onStatusChange($event)">
+        <option value="">Tất cả</option>
+        <option value="0">Trống</option>
+        <option value="1">Đang sử dụng</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Danh sách bàn -->
+  <div class="table-grid">
+    <div 
+      *ngFor="let table of filteredTables" 
+      class="table-card" 
+      [ngClass]="{'occupied': table.status === 1}"
+    >
+      <h3 class="table-name">{{ table.name }}</h3>
+      <p><strong>📍 Khu vực:</strong> {{ table.nameKhuVuc || 'Không có' }}</p>
+      <p><strong>💺 Loại bàn:</strong> {{ table.nameLoaiPhong || 'Không có' }}</p>
+      <p><strong>🧾 Mã hóa đơn:</strong> {{ table.orderID }}</p>
+
+      <p><strong>🔄 Trạng thái:</strong> 
+        <span [ngClass]="{'text-success': table.status === 1, 'text-danger': table.status === 0}">
+          {{ table.status === 1 ? '🔴 Đang sử dụng' : '🟢 Trống' }}
+        </span>
+      </p>
+
+      <!-- Nếu bàn trống, hiển thị nút "Gọi món" -->
+      <div *ngIf="table.status === 0" class="action-buttons">
+        <button (click)="goToOrder(table)" class="btn btn-success">📌 Gọi món</button>
+      </div>
+
+      <!-- Nếu bàn đang sử dụng, hiển thị hai nút -->
+      <div *ngIf="table.status === 1" class="action-buttons">
+        <button (click)="goToAddItem(table)" class="btn btn-primary">🍽️ Gọi thêm món</button>
+        <button (click)="payOrder(table)" class="btn btn-danger">💰 Thanh toán</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,138 @@
+.container {
+    max-width: 1300px;
+    padding: 0 15px;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    letter-spacing: 1px;
+    color: #dc3545; /* Red */
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #ffffff; /* White */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(220, 53, 69, 0.1) !important; /* Light red shadow */
+  }
+  
+  .card-header {
+    border-radius: 15px 15px 0 0;
+    padding: 1.5rem;
+  }
+  
+  .bg-gradient-red {
+    background: linear-gradient(135deg, #dc3545, #b02a37); /* Red gradient */
+  }
+  
+  .text-red {
+    color: #dc3545; /* Red */
+  }
+  
+  .table {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff; /* White */
+  }
+  
+  .table-red {
+    background: #dc3545; /* Red */
+    color: #ffffff; /* White */
+  }
+  
+  .table th {
+    font-weight: 600;
+  }
+  
+  .table td {
+    vertical-align: middle;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f8d7da; /* Light red hover */
+  }
+  
+  .alert {
+    border-radius: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .alert-danger {
+    background: #f8d7da; /* Light red */
+    color: #dc3545; /* Red text */
+    border: 1px solid #f5c6cb;
+  }
+  
+  .alert-light {
+    background: #fff5f5; /* Very light red */
+    color: #dc3545; /* Red text */
+    border: 1px solid #f8d7da;
+  }
+  
+  .btn-light {
+    background: #ffffff; /* White */
+    color: #dc3545; /* Red text */
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-light:hover {
+    background: #f8d7da; /* Light red hover */
+    color: #b02a37; /* Darker red */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+  }
+  
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Calendar Styles */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    padding: 15px;
+    background: #fff; /* White */
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.05); /* Light red shadow */
+  }
+  
+  .calendar-header {
+    text-align: center;
+    font-weight: 600;
+    padding: 10px;
+    background: #f8d7da; /* Light red */
+    color: #dc3545; /* Red */
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    background: #f8f9fa; /* Light gray default */
+    font-size: 1.1rem;
+  }
+  
+  .calendar-day.existing {
+    background: #28a745; /* Green for existing days */
+    color: #ffffff; /* White */
+  }
+  
+  .calendar-day.disabled {
+    color: #adb5bd;
+    background: #f8f9fa; /* Light gray */
+  }

@@ -1,0 +1,71 @@
+<div class="container">
+    <h2 class="title">Danh Sách Tất Cả Đơn Hàng</h2>
+    <div class="summary">
+      <p>Tổng số đơn hàng: <span class="highlight">{{ totalCount }}</span></p>
+      <p>Tổng doanh thu (đã thanh toán): <span class="highlight">{{ totalRevenue | number }} VND</span></p>
+    </div>
+  
+    <!-- Filter Section -->
+    <div class="filter-card">
+      <h3 class="filter-title">Bộ Lọc</h3>
+      <form [formGroup]="filterForm" class="filter-form">
+        <div class="filter-group">
+          <label for="status">Trạng thái:</label>
+          <select id="status" formControlName="status" class="form-control">
+            <option value="all">Tất cả</option>
+            <option value="paid">Đã thanh toán</option>
+            <option value="unpaid">Chưa thanh toán</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="dateFrom">Từ ngày:</label>
+          <input type="date" id="dateFrom" formControlName="dateFrom" class="form-control">
+        </div>
+        <div class="filter-group">
+          <label for="dateTo">Đến ngày:</label>
+          <input type="date" id="dateTo" formControlName="dateTo" class="form-control">
+        </div>
+        <div class="filter-group">
+          <label for="tableName">Tên bàn:</label>
+          <input type="text" id="tableName" formControlName="tableName" placeholder="Nhập tên bàn" class="form-control">
+        </div>
+        <button type="button" (click)="resetFilters()" class="btn btn-reset">Xóa bộ lọc</button>
+      </form>
+    </div>
+  
+    <!-- Orders List -->
+    <div class="orders-container">
+      <div *ngFor="let order of filteredOrders" class="order-card">
+        <div class="order-header">
+          <h3>Đơn hàng #{{ order.orderId }}</h3>
+          <span class="status-badge" [ngClass]="{'paid': order.status === 1, 'unpaid': order.status === 0}">
+            {{ order.status === 1 ? 'Đã thanh toán' : 'Chưa thanh toán' }}
+          </span>
+        </div>
+        <div class="order-details">
+          <p><strong>Người dùng:</strong> {{ order.userName }}</p>
+          <p><strong>Thời gian tạo:</strong> {{ order.timeCreate | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p><strong>Thời gian thanh toán:</strong> {{ order.timePay ? (order.timePay | date:'dd/MM/yyyy HH:mm') : 'Chưa thanh toán' }}</p>
+          <p><strong>Bàn:</strong> {{ order.tableName }} ({{ order.areaName }})</p>
+          <p><strong>Tổng tiền:</strong> {{ order.totalAmount | number }} VND</p>
+        </div>
+        <div class="items-section">
+          <h4>Món ăn:</h4>
+          <ul class="items-list">
+            <li *ngFor="let item of order.items" class="item-row">
+              <span class="item-name">{{ item.productName }}</span>
+              <span class="item-details">
+                Số lượng: {{ item.quantity }} - Giá: {{ item.price | number }} - Tổng: {{ item.totalItemPrice | number }} VND
+              </span>
+              <span class="item-status" [ngClass]="{'completed': item.itemStatus === 1, 'pending': item.itemStatus === 0}">
+                {{ item.itemStatus === 0 ? 'Chưa hoàn thành' : 'Đã hoàn thành' }}
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="filteredOrders.length === 0" class="no-data">
+        Không có đơn hàng nào phù hợp với bộ lọc.
+      </div>
+    </div>
+  </div>

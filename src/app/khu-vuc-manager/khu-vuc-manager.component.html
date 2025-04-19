@@ -1,0 +1,42 @@
+<div class="container">
+  <!-- Bảng danh sách khu vực (bên trái) -->
+  <div class="left">
+    <h3>Danh sách khu vực</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên khu vực</th>
+          <th>Mô tả</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let khuVuc of khuVucs">
+          <td>{{ khuVuc.id }}</td>
+          <td>{{ khuVuc.name }}</td>
+          <td>{{ khuVuc.description }}</td>
+          <td>
+            <button (click)="editKhuVuc(khuVuc)">Sửa</button>
+            <button (click)="deleteKhuVuc(khuVuc.id)">Xóa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Form nhập dữ liệu (bên phải) -->
+  <div class="right">
+    <h3>{{ isEditing ? 'Chỉnh sửa khu vực' : 'Thêm khu vực mới' }}</h3>
+    <form (ngSubmit)="saveKhuVuc()">
+      <label>Tên khu vực:</label>
+      <input [(ngModel)]="khuVucData.name" name="name" required />
+
+      <label>Mô tả:</label>
+      <input [(ngModel)]="khuVucData.description" name="description" required />
+
+      <button type="submit">{{ isEditing ? 'Cập nhật khu vực' : 'Thêm khu vực' }}</button>
+      <button type="button" (click)="resetForm()" *ngIf="isEditing">Hủy</button>
+    </form>
+  </div>
+</div>

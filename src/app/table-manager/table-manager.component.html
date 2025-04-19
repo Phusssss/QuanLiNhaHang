@@ -1,0 +1,57 @@
+<div class="container">
+    <!-- Bảng danh sách bàn (bên trái) -->
+    <div class="left">
+      <h3>Danh sách bàn</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên bàn</th>
+            <th>Khu vực</th>
+            <th>Loại bàn</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let table of tables">
+            <td>{{ table.id }}</td>
+            <td>{{ table.name }}</td>
+            <td>{{ table.nameKhuVuc }}</td>
+            <td>{{ table.nameLoaiPhong }}</td>
+            <td>
+              <button (click)="editTable(table)">Sửa</button>
+              <button (click)="deleteTable(table.id)"> Xóa</button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Form nhập dữ liệu (bên phải) -->
+    <div class="right">
+      <h3>{{ isEditing ? 'Chỉnh sửa bàn' : 'Thêm bàn mới' }}</h3>
+      <form (ngSubmit)="saveTable()">
+        <label>Tên bàn:</label>
+        <input [(ngModel)]="tableData.name" name="name" required />
+  
+        <label>Loại bàn:</label>
+        <select [(ngModel)]="tableData.idLoaiBan" name="idLoaiBan" required>
+          <option *ngFor="let loai of loaiBans" [value]="loai.id">
+            {{ loai.name }}
+          </option>
+        </select>
+  
+        <label>Khu vực:</label>
+        <select [(ngModel)]="tableData.idKhuVuc" name="idKhuVuc" required>
+          <option *ngFor="let khuVuc of khuVucs" [value]="khuVuc.id">
+            {{ khuVuc.name }}
+          </option>
+        </select>
+  
+        <button type="submit">{{ isEditing ? 'Cập nhật bàn' : 'Thêm bàn' }}</button>
+        <button type="button" (click)="resetForm()" *ngIf="isEditing">Hủy</button>
+      </form>
+    </div>
+  </div>
+  

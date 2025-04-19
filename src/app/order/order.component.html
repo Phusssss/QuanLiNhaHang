@@ -1,0 +1,80 @@
+  <div class="container">
+    <h2 class="title">🍽️ Đặt món - {{ tableName }}</h2>
+
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      (input)="filterProducts()"
+      placeholder="🔍 Tìm kiếm món ăn..." 
+      class="search-box"
+    >
+
+    <div class="tabs">
+      <button 
+        *ngFor="let type of productTypes" 
+        (click)="selectType(type)"
+        [class.active]="selectedType === type" 
+        class="tab-button"
+      >
+        {{ type }}
+      </button>
+    </div>
+
+    <div class="product-grid">
+      <div *ngFor="let product of filteredProducts" class="product-card">
+        <img 
+          *ngIf="product.imageUrl" 
+          [src]="getImageUrl(product.imageUrl)" 
+          class="product-image" 
+          [alt]="product.name"
+        >
+        <div class="product-info">
+          <h3 class="product-name">{{ product.name }}</h3>
+          <p class="product-price">{{ product.price | currency:'VND' }}</p>
+          <p class="product-type">
+            <span class="label">Loại:</span> 
+            {{ product.nameTypeProduct || 'Không có' }}
+          </p>
+          <input 
+            type="number" 
+            [(ngModel)]="productQuantities[product.id]"
+            min="1" 
+            (input)="validateQuantity(product.id)"
+            class="quantity-input"
+            placeholder="Số lượng"
+          >
+          <button (click)="addToCart(product)" class="btn btn-add">
+            Thêm vào giỏ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-section">
+      <h3 class="cart-title">🛍️ Giỏ hàng của bạn</h3>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of cart">
+            <td>{{ item.name }}</td>
+            <td>{{ item.price | currency:'VND' }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button 
+        (click)="placeOrder()" 
+        [disabled]="cart.length === 0" 
+        class="btn btn-order"
+      >
+        ✅ Xác nhận đặt món
+      </button>
+    </div>
+  </div>

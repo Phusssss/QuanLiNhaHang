@@ -1,0 +1,42 @@
+<div class="container">
+    <!-- Bảng danh sách loại bàn (bên trái) -->
+    <div class="left">
+      <h3>Danh sách loại bàn</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên loại bàn</th>
+            <th>Số người tối đa</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let loaiBan of loaiBans">
+            <td>{{ loaiBan.id }}</td>
+            <td>{{ loaiBan.name }}</td>
+            <td>{{ loaiBan.maxPeople }}</td>
+            <td>
+              <button (click)="editLoaiBan(loaiBan)">Sửa</button>
+              <button (click)="deleteLoaiBan(loaiBan.id)">Xóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Form nhập dữ liệu (bên phải) -->
+    <div class="right">
+      <h3>{{ isEditing ? 'Chỉnh sửa loại bàn' : 'Thêm loại bàn mới' }}</h3>
+      <form (ngSubmit)="saveLoaiBan()">
+        <label>Tên loại bàn:</label>
+        <input [(ngModel)]="loaiBanData.name" name="name" required />
+  
+        <label>Số người tối đa:</label>
+        <input type="number" [(ngModel)]="loaiBanData.maxPeople" name="maxPeople" required />
+  
+        <button type="submit">{{ isEditing ? 'Cập nhật loại bàn' : 'Thêm loại bàn' }}</button>
+        <button type="button" (click)="resetForm()" *ngIf="isEditing">Hủy</button>
+      </form>
+    </div>
+  </div>

@@ -1,0 +1,161 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-5 fw-bold text-uppercase text-primary">Quản Lý Lịch Làm Việc</h2>
+  
+    <div class="row g-4">
+      <!-- Danh sách nhân viên -->
+      <div class="col-md-4">
+        <div class="card shadow-lg border-0 h-100">
+          <div class="card-header bg-gradient-primary text-white py-3">
+            <h3 class="mb-0 fw-semibold">Danh Sách Nhân Viên</h3>
+          </div>
+          <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+              <button 
+                *ngFor="let staff of staffList" 
+                class="list-group-item list-group-item-action py-3"
+                [class.active]="selectedStaff?.id === staff.id"
+                (click)="selectStaff(staff)">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="fw-medium">{{staff.name}}</span>
+                  <small class="text-muted badge bg-light text-dark">{{staff.jobName}}</small>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Form và lịch làm việc -->
+      <div class="col-md-8" *ngIf="selectedStaff">
+        <div class="card shadow-lg border-0">
+          <div class="card-header bg-gradient-info text-white py-3 d-flex justify-content-between align-items-center">
+            <h3 class="mb-0 fw-semibold">Lịch Làm Việc của {{selectedStaff.name}}</h3>
+          </div>
+          <div class="card-body p-4">
+            <!-- Form thêm lịch -->
+            <form [formGroup]="timekeepingForm" (ngSubmit)="onSubmit()" *ngIf="showForm" class="p-4 bg-light rounded-3 shadow-sm">
+              <div class="mb-4">
+                <label for="typeJob" class="form-label fw-bold text-dark">Loại Công Việc</label>
+                <select 
+                  id="typeJob" 
+                  class="form-select form-control-lg shadow-sm"
+                  formControlName="typeJob" 
+                  (change)="onTypeJobChange($event)">
+                  <option value="FullTime">FullTime</option>
+                  <option value="PartTime">PartTime</option>
+                </select>
+              </div>
+  
+              <!-- Form cho PartTime -->
+              <div *ngIf="timekeepingForm.get('typeJob')?.value === 'PartTime'" class="row g-3">
+                <div class="col-md-6">
+                  <label for="start" class="form-label fw-bold text-dark">Thời Gian Bắt Đầu</label>
+                  <input 
+                    type="datetime-local" 
+                    id="start" 
+                    class="form-control form-control-lg shadow-sm"
+                    formControlName="start">
+                </div>
+                <div class="col-md-6">
+                  <label for="end" class="form-label fw-bold text-dark">Thời Gian Kết Thúc</label>
+                  <input 
+                    type="datetime-local" 
+                    id="end" 
+                    class="form-control form-control-lg shadow-sm"
+                    formControlName="end">
+                </div>
+              </div>
+  
+              <!-- Lịch tháng cho FullTime -->
+              <div *ngIf="timekeepingForm.get('typeJob')?.value === 'FullTime'" class="mb-4">
+                <h4 class="mb-4 text-center fw-semibold text-dark">Tháng {{currentMonth + 1}}/{{currentYear}}</h4>
+                <div class="calendar-grid shadow-sm">
+                  <div class="calendar-header" *ngFor="let day of ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']">
+                    {{day}}
+                  </div>
+                  <div 
+                    *ngFor="let day of calendarDays; let i = index" 
+                    class="calendar-day"
+                    [class.selected]="selectedDays[day.day - 1] && !(!selectedDays[day.day - 1] && existingDays.has(day.day))"
+                    [class.existing]="existingDays.has(day.day) && selectedDays[day.day - 1]"
+                    [class.to-delete]="existingDays.has(day.day) && !selectedDays[day.day - 1]"
+                    [class.disabled]="!day.isCurrentMonth"
+                    (click)="toggleDay(day.day - 1)">
+                    <span>{{day.day}}</span>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="mb-4">
+                <label for="status" class="form-label fw-bold text-dark">Trạng Thái</label>
+                <input 
+                  type="number" 
+                  id="status" 
+                  class="form-control form-control-lg shadow-sm"
+                  formControlName="status">
+              </div>
+  
+              <div class="d-flex gap-3">
+                <button 
+                  type="submit" 
+                  class="btn btn-primary btn-lg w-100 shadow-sm"
+                  [disabled]="timekeepingForm.invalid && !isEditMode">
+                  {{timekeepingForm.get('typeJob')?.value === 'FullTime' ? 'Tạo Lịch FullTime' : 'Thêm Lịch PartTime'}}
+                </button>
+                <button 
+                  *ngIf="timekeepingForm.get('typeJob')?.value === 'FullTime' && isEditMode" 
+                  type="button" 
+                  class="btn btn-success btn-lg w-100 shadow-sm"
+                  (click)="saveChanges()">
+                  Lưu Thay Đổi
+                </button>
+              </div>
+            </form>
+  
+            <!-- Danh sách lịch làm việc -->
+            <div class="mt-5">
+              <h4 class="mb-4 fw-semibold text-dark">Danh Sách Lịch Làm Việc</h4>
+              <div class="table-responsive shadow-sm rounded-3 overflow-hidden">
+                <table class="table table-striped table-hover mb-0">
+                  <thead class="table-dark">
+                    <tr>
+                      <th class="py-3">Bắt Đầu</th>
+                      <th class="py-3">Kết Thúc</th>
+                      <th class="py-3">Loại</th>
+                      <th class="py-3">Trạng Thái</th>
+                      <th class="py-3">Hành Động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tk of timekeepings">
+                      <td class="py-3">{{tk.start | date:'dd/MM/yyyy HH:mm'}}</td>
+                      <td class="py-3">{{tk.end | date:'dd/MM/yyyy HH:mm'}}</td>
+                      <td class="py-3">{{tk.typeJob}}</td>
+                      <td class="py-3">{{tk.status}}</td>
+                      <td class="py-3">
+                        <button 
+                          class="btn btn-warning btn-sm me-2 shadow-sm"
+                          (click)="editTimekeeping(tk)" 
+                          [disabled]="tk.typeJob === 'FullTime'">
+                          Sửa
+                        </button>
+                        <button 
+                          class="btn btn-danger btn-sm shadow-sm"
+                          (click)="deleteTimekeeping(tk.id)" 
+                          [disabled]="tk.typeJob === 'FullTime'">
+                          Xóa
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="alert alert-info text-center py-4 my-0 rounded-0" *ngIf="timekeepings.length === 0">
+                  Chưa có lịch làm việc nào
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

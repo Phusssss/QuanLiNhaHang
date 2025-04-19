@@ -1,0 +1,68 @@
+<div class="product-manager-container">
+    <h2>Quản lý sản phẩm</h2>
+
+    <!-- Form thêm/sửa sản phẩm -->
+    <div class="form-container">
+        <h3>Thêm/Sửa sản phẩm</h3>
+        <input type="text" [(ngModel)]="newProduct.name" placeholder="Tên sản phẩm">
+        <input type="number" [(ngModel)]="newProduct.price" placeholder="Giá sản phẩm">
+
+        <!-- Dropdown chọn loại sản phẩm -->
+        <select [(ngModel)]="newProduct.idTypeProduct">
+            <option *ngFor="let type of typeProducts" [value]="type.id">
+                {{ type.name }}
+            </option>
+        </select>
+
+        <!-- Input chọn ảnh -->
+        <input type="file" (change)="onFileSelected($event)">
+        <div class="button-group">
+            <button (click)="addProduct()" class="btn btn-add">Thêm</button>
+            <button (click)="resetForm()" class="btn btn-cancel">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <h3>Danh sách sản phẩm</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ảnh</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Loại sản phẩm</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products">
+                    <td>{{ product.id }}</td>
+                    <td>
+                        <img *ngIf="product.imageUrl" 
+                             [src]="getImageUrl(product.imageUrl)" 
+                             class="product-image">
+                    </td>
+                    <td>
+                        <input [(ngModel)]="product.name">
+                    </td>
+                    <td>
+                        <input type="number" [(ngModel)]="product.price">
+                    </td>
+                    <td>
+                        <select [(ngModel)]="product.idTypeProduct">
+                            <option *ngFor="let type of typeProducts" [value]="type.id">
+                                {{ type.name }}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <button (click)="updateProduct(product)" class="btn btn-save">Lưu</button>
+                        <button (click)="deleteProduct(product.id)" class="btn btn-delete">Xóa</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

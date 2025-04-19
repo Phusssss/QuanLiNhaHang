@@ -1,0 +1,253 @@
+<div class="container">
+  <h2 class="title">🍽️ Thêm món vào đơn hàng - {{ nameBan }}</h2>
+
+  <input 
+    type="text" 
+    [(ngModel)]="searchTerm" 
+    (input)="filterProducts()"
+    placeholder="🔍 Tìm kiếm món ăn..." 
+    class="search-box"
+  >
+
+  <div class="tabs">
+    <button 
+      *ngFor="let type of productTypes" 
+      (click)="selectType(type)"
+      [class.active]="selectedType === type" 
+      class="tab-button"
+    >
+      {{ type }}
+    </button>
+  </div>
+
+  <div class="product-grid">
+    <div *ngFor="let product of filteredProducts" class="product-card">
+      <img 
+        *ngIf="product.imageUrl" 
+        [src]="getImageUrl(product.imageUrl)" 
+        class="product-image" 
+        [alt]="product.name"
+        (error)="handleImageError($event)"
+      >
+      <div class="product-info">
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-price">{{ product.price | currency:'VND' }}</p>
+        <p class="product-type">
+          <span class="label">Loại:</span> 
+          {{ product.nameTypeProduct || 'Không có' }}
+        </p>
+        <input 
+          type="number" 
+          [(ngModel)]="productQuantities[product.id]"
+          min="1" 
+          (input)="validateQuantity(product.id)"
+          class="quantity-input"
+          placeholder="Số lượng"
+        >
+        <button (click)="addToCart(product)" class="btn btn-add">
+          Thêm vào giỏ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-section">
+    <h3 class="cart-title">🛍️ Giỏ hàng</h3>
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Sản phẩm</th>
+          <th>Giá</th>
+          <th>Số lượng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cart">
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.product.price | currency:'VND' }}</td>
+          <td>{{ item.quantity }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button 
+      (click)="placeOrder()" 
+      [disabled]="cart.length === 0" 
+      class="btn btn-order"
+    >
+      ✅ Đặt hàng
+    </button>
+  </div>
+</div>
+
+<style>
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.title {
+  color: #d32f2f;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #d32f2f;
+  padding-bottom: 10px;
+}
+
+.search-box {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #d32f2f;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  border: 2px solid #d32f2f;
+  border-radius: 20px;
+  background-color: white;
+  color: #d32f2f;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab-button.active, .tab-button:hover {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.product-card {
+  background-color: #fff;
+  border: 2px solid #d32f2f;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(211, 47, 47, 0.2);
+}
+
+.product-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.product-info {
+  padding: 10px 0;
+}
+
+.product-name {
+  color: #d32f2f;
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.product-price {
+  color: #333;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.product-type {
+  color: #666;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.quantity-input {
+  width: 80px;
+  padding: 5px;
+  margin: 10px 0;
+  border: 1px solid #d32f2f;
+  border-radius: 5px;
+}
+
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-add {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.btn-add:hover {
+  background-color: #b71c1c;
+}
+
+.cart-section {
+  background-color: #ffebee;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.cart-title {
+  color: #d32f2f;
+  margin: 0 0 15px;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cart-table th, .cart-table td {
+  padding: 10px;
+  border-bottom: 1px solid #d32f2f;
+  text-align: left;
+}
+
+.cart-table th {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.btn-order {
+  background-color: #d32f2f;
+  color: white;
+  padding: 12px 30px;
+  display: block;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+.btn-order:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.btn-order:not(:disabled):hover {
+  background-color: #b71c1c;
+}
+</style>

@@ -1,0 +1,104 @@
+/* Tổng thể */
+.product-manager-container {
+    max-width: 1200px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background: #d32f2f;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Form thêm/sửa sản phẩm */
+.form-container {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.form-container input, .form-container select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Các nút bấm */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-add {
+    background: #d32f2f;
+    color: white;
+}
+
+.btn-cancel {
+    background: #ddd;
+    color: black;
+}
+
+.btn-save {
+    background: #008000;
+    color: white;
+}
+
+.btn-delete {
+    background: #d32f2f;
+    color: white;
+}
+
+/* Bảng sản phẩm */
+.table-container {
+    overflow-x: auto;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #d32f2f;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Ảnh sản phẩm */
+.product-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+/* Để bảng có thể kéo ngang */
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+    border-radius: 10px;
+}

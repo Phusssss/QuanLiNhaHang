@@ -1,0 +1,105 @@
+.container {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa bảng và form */
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .left {
+    flex: 1; /* Chiếm 50% màn hình */
+    overflow-y: auto; /* Cho phép cuộn nếu danh sách dài */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse; /* Gộp đường viền lại với nhau */
+    margin-top: 10px;
+  }
+  
+  th,
+  td {
+    border: 1px solid #ddd; /* Đường viền ô */
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #d32f2f; /* Màu nền tiêu đề */
+    color: white;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Màu xen kẽ */
+  }
+  
+  tbody tr:hover {
+    background-color: #f1f1f1; /* Hiệu ứng hover */
+  }
+  
+  .right {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  h3 {
+    text-align: center;
+    color: #d32f2f;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 10px;
+    background: #d32f2f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background: #b71c1c;
+  }
+  
+  button[type="button"] {
+    background: #ffffff;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    margin-top: 10px;
+  }
+  
+  button[type="button"]:hover {
+    background: #ffebee;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .container {
+      flex-direction: column; /* Chuyển thành dạng dọc */
+    }
+  
+    .left,
+    .right {
+      flex: none; /* Không chia tỷ lệ ngang nữa */
+      width: 100%; /* Chiếm toàn bộ chiều rộng */
+    }
+  }

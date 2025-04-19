@@ -1,0 +1,56 @@
+<h1>Quản lý nhân viên</h1>
+
+<!-- Form thêm/sửa nhân viên -->
+<div class="staff-form">
+  <h2>{{ isEditing ? 'Sửa nhân viên' : 'Thêm nhân viên' }}</h2>
+  <form (ngSubmit)="isEditing ? updateStaff() : addStaff()">
+    <div>
+      <label>Tên:</label>
+      <input [(ngModel)]="newStaff.name" name="name" required />
+    </div>
+    <div>
+      <label>Email:</label>
+      <input [(ngModel)]="newStaff.email" name="email" type="email" required />
+    </div>
+    <div>
+      <label>Số điện thoại:</label>
+      <input [(ngModel)]="newStaff.phoneNumber" name="phoneNumber" required />
+    </div>
+    <div>
+      <label>Công việc:</label>
+      <select [(ngModel)]="newStaff.jobId" name="jobId" required>
+        <option value="0" disabled>Chọn công việc</option>
+        <option *ngFor="let job of jobs" [value]="job.id">{{ job.name }}</option>
+      </select>
+    </div>
+    <button type="submit">{{ isEditing ? 'Cập nhật' : 'Thêm' }}</button>
+    <button type="button" (click)="resetForm()" *ngIf="isEditing">Hủy</button>
+  </form>
+</div>
+
+<!-- Danh sách nhân viên -->
+<table class="staff-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Công việc</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let staff of staffList">
+      <td>{{ staff.id }}</td>
+      <td>{{ staff.name }}</td>
+      <td>{{ staff.email }}</td>
+      <td>{{ staff.phoneNumber }}</td>
+      <td>{{ staff.jobName }}</td>
+      <td>
+        <button (click)="editStaff(staff)">Sửa</button>
+        <button (click)="deleteStaff(staff.id)">Xóa</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

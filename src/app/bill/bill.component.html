@@ -1,0 +1,202 @@
+<div class="bill-container">
+  <h2>Hóa Đơn Thanh Toán</h2>
+
+  <div class="bill-header">
+    <div class="bill-info">
+      <p><strong>Mã đơn hàng:</strong> {{ bill.orderId }}</p>
+      <p><strong>Nhân viên:</strong> {{ bill.userName }}</p>
+      <p><strong>Bàn:</strong> {{ bill.nameTable }}</p>
+      <p><strong>Thời gian tạo:</strong> {{ bill.timeCreate }}</p>
+      <p><strong>Thời gian thanh toán:</strong> {{ bill.timePay }}</p>
+    </div>
+    <div class="qr-container">
+      <div *ngIf="qrUrl; else loading">
+        <img [src]="qrUrl" alt="QR Code Thanh Toán">
+      </div>
+      <ng-template #loading>
+        <p>Đang tạo mã QR...</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <table class="bill-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Giá</th>
+        <th>Thành tiền</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of bill.items; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.productName }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency:'VND' }}</td>
+        <td>{{ item.totalPrice | currency:'VND' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="total-amount">Tổng cộng: {{ bill.totalAmount | currency:'VND' }}</h3>
+
+  <div class="bill-buttons">
+    <button (click)="print()" class="btn btn-print">In hóa đơn</button>
+    <button (click)="back()" class="btn btn-back">Quay lại</button>
+  </div>
+</div>
+
+<style>
+.bill-container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border: 2px solid #d32f2f;
+}
+
+h2 {
+  text-align: center;
+  color: #d32f2f;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed #d32f2f;
+  font-size: 24px;
+}
+
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  background-color: #ffebee;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.bill-info {
+  font-size: 16px;
+  color: #333;
+}
+
+.bill-info p {
+  margin: 8px 0;
+}
+
+.qr-container {
+  text-align: right;
+}
+
+.qr-container img {
+  width: 120px;
+  height: 120px;
+  border: 2px solid #d32f2f;
+  border-radius: 5px;
+  padding: 5px;
+  background: white;
+}
+
+.qr-container p {
+  color: #d32f2f;
+  font-style: italic;
+}
+
+.bill-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.bill-table th, .bill-table td {
+  border: 1px solid #d32f2f;
+  padding: 10px;
+  text-align: center;
+}
+
+.bill-table th {
+  background-color: #d32f2f;
+  color: white;
+  font-weight: bold;
+}
+
+.bill-table td {
+  color: #333;
+}
+
+.total-amount {
+  text-align: right;
+  margin: 15px 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #d32f2f;
+  padding-top: 10px;
+  border-top: 2px solid #d32f2f;
+}
+
+.bill-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn-print {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.btn-print:hover {
+  background-color: #b71c1c;
+}
+
+.btn-back {
+  background-color: #ffffff;
+  color: #d32f2f;
+  border: 2px solid #d32f2f;
+}
+
+.btn-back:hover {
+  background-color: #ffebee;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .bill-container, .bill-container * {
+    visibility: visible;
+  }
+
+  .bill-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .bill-buttons {
+    display: none;
+  }
+
+  .qr-container {
+    position: static;
+  }
+}
+</style>

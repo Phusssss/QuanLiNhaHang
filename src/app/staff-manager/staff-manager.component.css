@@ -1,0 +1,45 @@
+.staff-form {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .staff-form div {
+    margin-bottom: 10px;
+  }
+  
+  .staff-form label {
+    display: inline-block;
+    width: 100px;
+  }
+  
+  .staff-form input, .staff-form select {
+    padding: 5px;
+    width: 200px;
+  }
+  
+  .staff-form button {
+    padding: 5px 10px;
+    margin-right: 10px;
+  }
+  
+  .staff-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .staff-table th, .staff-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .staff-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .staff-table button {
+    margin-right: 5px;
+  }
