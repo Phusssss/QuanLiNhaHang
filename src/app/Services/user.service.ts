@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://localhost:7157/api/User'; // Base URL for API
+  private apiUrl = 'https://quanlinhahang1-3.onrender.com/api/User'; // Base URL for API
 
   constructor(private http: HttpClient) { }
 

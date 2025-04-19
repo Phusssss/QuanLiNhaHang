@@ -11,7 +11,7 @@ interface TypeProduct {
   providedIn: 'root'
 })
 export class TypeProductService {
-  private apiUrl = 'https://localhost:7157/api/TypeProduct';
+  private apiUrl = 'https://quanlinhahang1-3.onrender.com/api/TypeProduct';
 
   constructor(private http: HttpClient) { }
 

@@ -104,7 +104,7 @@ interface OrderNotification {
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'https://localhost:7157/api/orders';
+  private apiUrl = 'https://quanlinhahang1-3.onrender.com/orders';
   private hubConnection: signalR.HubConnection | undefined;
   private orderNotificationSubject = new Subject<OrderNotification>();
 
@@ -117,7 +117,7 @@ export class OrderService {
   }
   private startConnection(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7157/orderHub')
+      .withUrl('https://quanlinhahang1-3.onrender.com/orderHub')
       .withAutomaticReconnect()
       .build();
 

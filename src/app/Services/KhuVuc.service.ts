@@ -12,7 +12,7 @@ interface KhuVuc {
   providedIn: 'root'
 })
 export class KhuVucService {
-  private apiUrl = 'https://localhost:7157/api/KhuVuc';
+  private apiUrl = 'https://quanlinhahang1-3.onrender.com/api/KhuVuc';
 
   constructor(private http: HttpClient) { }
 

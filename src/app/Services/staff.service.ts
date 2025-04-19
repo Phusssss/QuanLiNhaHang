@@ -33,7 +33,7 @@ interface Timekeeping {
   providedIn: 'root'
 })
 export class StaffService {
-  private apiUrl = 'https://localhost:7157/api';
+  private apiUrl = 'https://quanlinhahang1-3.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
